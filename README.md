@@ -530,7 +530,7 @@ jobs:
         echo "Deployment completed at $(date)"
 ```
 
-## 6. 로컬 테스트
+## 5. 로컬 테스트
 
 ### 애플리케이션 테스트
 ```bash
@@ -549,7 +549,7 @@ curl http://localhost:3000/health
 curl http://localhost:3000/api/users
 ```
 
-## 7. GitHub에 푸시
+## 6. GitHub에 푸시
 
 ### GitHub에 새 저장소 생성
 1. GitHub에 로그인
@@ -558,9 +558,9 @@ curl http://localhost:3000/api/users
 4. Public 또는 Private 선택
 5. Create repository 클릭
 
-## 7. GitHub CLI 없이 푸시하기
+## 7. GitHub 푸시하기
 
-### 🎯 가장 간단한 방법: GitHub에서 빈 저장소 생성 후 연결
+### 🎯 GitHub에서 빈 저장소 생성 후 연결
 
 #### 1단계: 로컬에서 커밋까지 완료
 ```bash
@@ -615,25 +615,6 @@ git push -u origin main
 git remote add origin https://github.com/YOUR_USERNAME/github-actions-practice.git  
 git branch -M main
 git push -u origin main
-```
-
-### 🔐 인증 방법별 푸시
-
-#### SSH 키 사용 (추천)
-```bash
-# SSH 연결 테스트 먼저
-ssh -T git@github.com
-
-# 성공하면 다음 명령어들 실행
-git remote add origin git@github.com:YOUR_USERNAME/github-actions-practice.git
-git push -u origin main
-
-# 성공 메시지:
-# Enumerating objects: XX, done.
-# Counting objects: 100% (XX/XX), done.
-# ...
-# To github.com:YOUR_USERNAME/github-actions-practice.git
-#  * [new branch]      main -> main
 ```
 
 #### HTTPS + 토큰 사용
@@ -747,50 +728,3 @@ git push -u origin feature/new-endpoint
 git tag v1.0.0
 git push origin v1.0.0
 ```
-
-## 9. 유용한 개발 도구 설치 (선택사항)
-
-### VS Code 설치
-```bash
-# VS Code 저장소 추가
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
-echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
-
-# VS Code 설치
-sudo apt update
-sudo apt install code
-```
-
-### GitHub CLI 설치
-```bash
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
-sudo apt update
-sudo apt install gh
-
-# GitHub CLI 인증
-gh auth login
-```
-
-## 문제 해결
-
-### SSH 연결 문제
-```bash
-# SSH 연결 테스트
-ssh -vT git@github.com
-
-# SSH 설정 확인
-cat ~/.ssh/config
-```
-
-### Node.js 권한 문제
-```bash
-# npm 글로벌 패키지 디렉토리 변경
-mkdir ~/.npm-global
-npm config set prefix '~/.npm-global'
-echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc
-```
-
-이제 우분투 환경에서 GitHub Actions를 완전히 실습할 수 있는 환경이 구축되었습니다!
