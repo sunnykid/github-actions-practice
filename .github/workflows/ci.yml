@@ -1,0 +1,72 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Test application startup
+      run: |
+        npm start &
+        sleep 5
+        curl http://localhost:3000/health
+        pkill -f "node src/app.js"
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Create build info
+      run: |
+        mkdir -p build
+        echo "Build completed at $(date)" > build/build-info.txt
+        echo "Git commit: ${{ github.sha }}" >> build/build-info.txt
+        echo "Branch: ${{ github.ref_name }}" >> build/build-info.txt
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-${{ github.run_number }}
+        path: |
+          build/
+          src/
+          package.json
+        retention-days: 30
