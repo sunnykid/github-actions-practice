@@ -90,7 +90,7 @@ jobs:
         echo "Branch: ${{ github.ref_name }}" >> build/build-info.txt
         
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: build-${{ github.run_number }}
         path: |
@@ -177,7 +177,7 @@ jobs:
       run: npm test -- --coverage || npm test
       
     - name: Upload coverage reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: coverage-report
