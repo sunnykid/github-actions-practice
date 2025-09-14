@@ -61,41 +61,7 @@ node --version
 npm --version
 ```
 
-## 3. SSH 키 생성 및 GitHub 연결
-
-### SSH 키 생성
-```bash
-# SSH 키 생성 (이메일 주소 변경)
-ssh-keygen -t ed25519 -C "your.email@example.com"
-
-# Enter를 3번 눌러 기본 설정 사용
-# 키 파일 위치: ~/.ssh/id_ed25519 (private key)
-#               ~/.ssh/id_ed25519.pub (public key)
-```
-
-### SSH 에이전트 시작 및 키 추가
-```bash
-# SSH 에이전트 시작
-eval "$(ssh-agent -s)"
-
-# SSH 키 추가
-ssh-add ~/.ssh/id_ed25519
-```
-
-### 공개 키를 GitHub에 추가
-```bash
-# 공개 키 내용 출력
-cat ~/.ssh/id_ed25519.pub
-
-# 출력된 내용을 복사하여 GitHub Settings > SSH and GPG keys에 추가
-```
-
-### GitHub 연결 테스트
-```bash
-ssh -T git@github.com
-```
-
-## 4. 첫 번째 실습 프로젝트 생성
+## 3. 첫 번째 실습 프로젝트 생성
 
 ### 프로젝트 디렉토리 생성
 ```bash
@@ -324,46 +290,7 @@ test-results/
 coverage/
 ```
 
-### README.md 파일 생성
-```bash
-nano README.md
-```
-
-다음 내용 입력:
-```markdown
-# GitHub Actions Practice
-
-이 프로젝트는 GitHub Actions를 학습하기 위한 실습 프로젝트입니다.
-
-## 설치 및 실행
-
-### 의존성 설치
-```bash
-npm install
-```
-
-### 개발 서버 실행
-```bash
-npm run dev
-```
-
-### 테스트 실행
-```bash
-npm test
-```
-
-## API 엔드포인트
-
-- `GET /` - 기본 메시지
-- `GET /health` - 헬스 체크
-- `GET /api/users` - 사용자 목록
-
-## CI/CD
-
-이 프로젝트는 GitHub Actions를 사용하여 자동화된 테스트 및 배포를 수행합니다.
-```
-
-## 5. GitHub Actions 워크플로우 생성
+## 4. GitHub Actions 워크플로우 생성
 
 ### 기본 CI 워크플로우
 ```bash
